@@ -13,3 +13,11 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["core*"]
+
+[tool.pylint.messages_control]
+disable = [
+    "too-few-public-methods",    # not relevant for a math utility library
+]
+
+[tool.pylint.format]
+max-line-length = 88

@@ -11,9 +11,12 @@ __pycache__/
 *.pyc
 *.pyo
 
+# Testing
+.pytest_cache/
+
 # Jupyter checkpoints
 .ipynb_checkpoints/
 
 # OS noise
-.DS_Store        # Mac
-Thumbs.db        # Windows
+.DS_Store
+Thumbs.db

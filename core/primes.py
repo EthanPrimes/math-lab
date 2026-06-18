@@ -6,7 +6,7 @@ Includes:
 """
 
 import math
-from typing import Iterator
+from typing import Iterator  # pylint: disable=unused-import
 
 def is_prime(n: int) -> bool:
     """Returns a bool indicating primality of the input.
@@ -40,7 +40,6 @@ def is_prime(n: int) -> bool:
         return True
     if math.gcd(n, 6) > 1:
         return False
-    
     # Starting at 5 and looking only at integers of the form 6k +/- 1
     i = 5
     jump = 2
@@ -49,5 +48,4 @@ def is_prime(n: int) -> bool:
             return False
         i += jump
         jump = 6 - jump
-    
     return True
