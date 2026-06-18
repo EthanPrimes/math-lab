@@ -26,7 +26,7 @@ def is_prime(n: int) -> bool:
     Example:
         >>> is_prime(17)
         True
-        >>> is_prime(57)
+        >>> is_prime(18)
         False
     """
     if not isinstance(n, int):
@@ -34,6 +34,8 @@ def is_prime(n: int) -> bool:
     if n < 0:
         raise ValueError(f"Expected non-negative integer, got {n}")
 
+    if n == 1:
+        return False
     if n in [2, 3]:
         return True
     if math.gcd(n, 6) > 1:
