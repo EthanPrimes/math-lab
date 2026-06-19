@@ -1,7 +1,7 @@
 """Tests for core.primes"""
 
 import pytest
-from core.primes import is_prime
+from core.primes import is_prime, pollards_rho_algorithm
 
 # --- is_prime ---
 
@@ -31,3 +31,5 @@ def test_is_prime_rejects_float():
 def test_is_prime_rejects_negative():
     with pytest.raises(ValueError):
         is_prime(-2)
+
+# --- pollards_rho_algorithm ---
