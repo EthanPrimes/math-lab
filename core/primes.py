@@ -5,6 +5,7 @@ Includes:
 - Naive trial division
 """
 
+import re
 import math
 import random
 from typing import Iterator  # pylint: disable=unused-import
@@ -92,3 +93,30 @@ def pollards_rho_algorithm(n: int, x0: int = 2, c: int = 1) -> int:
         )
 
     return d
+
+def regex_is_prime(n: int):
+    """Returns whether or not the input integer is prime.
+
+    Uses Regex witchcraft to determine the result.
+
+    Args:
+        n: Nonnegative integer.
+
+    Returns:
+        Bool indicating primality of n
+
+    Raises:
+        TypeError: If n is not an integer.
+        ValueError: If n is negative.
+
+    Example:
+        >>> is_prime(17)
+        True
+        >>> is_prime(18)
+        False
+    """
+    if not isinstance(n, int):
+        raise TypeError(f"Expected int, got {type(n).__name__}")
+    if n < 0:
+        raise ValueError(f"Expected non-negative integer, got {n}")
+    return not re.match(r"^.?$|^(..+?)\1+$", "1" * n)
