@@ -1,7 +1,13 @@
 """Tests for core.primes"""
 
 import pytest
-from core.primes import is_prime, pollards_rho_algorithm, regex_is_prime
+
+from core.primes import (
+    is_prime,
+    pollards_rho_algorithm,
+    regex_is_prime,
+    sieve_of_eratosthenes,
+)
 
 # --- is_prime ---
 
@@ -77,3 +83,31 @@ def test_regex_is_prime_rejects_float():
 def test_regex_is_prime_rejects_negative():
     with pytest.raises(ValueError):
         regex_is_prime(-2)
+
+# --- sieve_of_eratosthenes ---
+
+def test_sieve_of_eratosthenes_basic():
+    assert sieve_of_eratosthenes(30) == [
+        2, 3, 5, 7, 11, 13, 17, 19, 23, 29
+    ]
+
+def test_sieve_of_eratosthenes_inclusive_of_prime_bound():
+    assert sieve_of_eratosthenes(29)[-1] == 29
+    assert sieve_of_eratosthenes(2) == [2]
+
+def test_sieve_of_eratosthenes_small_bounds():
+    assert sieve_of_eratosthenes(0) == []
+    assert sieve_of_eratosthenes(1) == []
+
+def test_sieve_of_eratosthenes_matches_is_prime():
+    n = 200
+    expected = [i for i in range(n + 1) if is_prime(i)]
+    assert sieve_of_eratosthenes(n) == expected
+
+def test_sieve_of_eratosthenes_rejects_float():
+    with pytest.raises(TypeError):
+        sieve_of_eratosthenes(7.0)
+
+def test_sieve_of_eratosthenes_rejects_negative():
+    with pytest.raises(ValueError):
+        sieve_of_eratosthenes(-2)
