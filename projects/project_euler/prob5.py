@@ -1,3 +1,3 @@
-from core.number_theory import smallest_number_div_by_first_n_numbers
+from core.number_theory import smallest_div_by_first_n
 
-print(smallest_number_div_by_first_n_numbers(20))
+print(smallest_div_by_first_n(20))

@@ -1,1 +1,1 @@
-* Implement the Miller-Rabin primality tester
+* Implement the Miller-Rabin primality test
