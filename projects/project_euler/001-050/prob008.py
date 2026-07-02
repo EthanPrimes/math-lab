@@ -1,7 +1,9 @@
 from math import prod
 
-with open("projects/project_euler/data_files/prob8.txt", "r") as file:
-    digits = [int(char) for char in file.read()]
+digits = []
+with open("projects/project_euler/001-050/data_files/prob008.txt", "r") as file:
+    for line in file:
+        digits.extend([int(char) for char in line.strip()])
 
 n = 13  # Number of digits to multiply
 max_prod = 0

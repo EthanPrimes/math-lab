@@ -8,7 +8,7 @@ def eliminate_bottom_row(tri: list[list[int]]) -> list[list[int]]:
     return tri[:-1]
 
 triangle = []
-with open("projects/project_euler/data_files/prob18.txt", "r") as file:
+with open("projects/project_euler/001-050/data_files/prob018.txt", "r") as file:
     for line in file:
         triangle.append(list(map(int, line.split())))
 

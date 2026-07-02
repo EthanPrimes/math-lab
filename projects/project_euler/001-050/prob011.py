@@ -7,7 +7,7 @@ n = 4  # Terms to multiply
 # Reading in the grid in a single-dimensional list
 numbers = []
 max_prod = 0
-with open("projects/project_euler/data_files/prob11.txt", "r") as file:
+with open("projects/project_euler/001-050/data_files/prob011.txt", "r") as file:
     for line in file:
         numbers.append(list(map(int, line.split())))
 
