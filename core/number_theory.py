@@ -2,8 +2,10 @@
 Number theory utilities.
 
 Includes:
+- Retrieving integer from list of prime factors and frequencies
 - Smallest multiple of the first n natural numbers
 - Divisor sigma function
+- Perfect nth power check
 """
 
 from collections import defaultdict
@@ -64,6 +66,44 @@ def smallest_div_by_first_n(n: int) -> int:
             max_power[prime] = max(max_power[prime], power)
 
     return from_prime_factors(max_power)
+
+def is_nth_power(b: int, n: int = 2) -> bool:
+    """Determine if b is a perfect nth power.
+
+    Computes a = round(b**(1/n)) and checks whether a**n == b.
+
+    Args:
+        b: Non-negative integer that may be an nth power.
+        n: Positive integer representing the examined power.
+
+    Returns:
+        bool indicating if b is a perfect nth power.
+
+    Raises:
+        TypeError: If b or n is not an integer.
+        ValueError: If b is negative or n is not positive.
+
+    Examples:
+        >>> is_nth_power(16, 4)
+        True
+        >>> is_nth_power(15, 4)
+        False
+        >>> is_nth_power(0, 5)
+        True
+        >>> is_nth_power(1, 100)
+        True
+    """
+    if not isinstance(b, int):
+        raise TypeError(f"Expected int, got {type(b).__name__}")
+    if not isinstance(n, int):
+        raise TypeError(f"Expected int, got {type(n).__name__}")
+    if b < 0:
+        raise ValueError(f"Expected non-negative integer, got {b}")
+    if n < 1:
+        raise ValueError(f"Expected positive integer, got {n}")
+
+    a = round(pow(b, 1/n))
+    return a**n == b
 
 def divisor_sigma(n: int, z: int) -> int:
     """Returns the sum of the z-th powers of the positive divisors of n.

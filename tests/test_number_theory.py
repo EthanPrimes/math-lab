@@ -2,7 +2,12 @@
 
 import pytest
 
-from core.number_theory import divisor_sigma, from_prime_factors, smallest_div_by_first_n
+from core.number_theory import (
+    divisor_sigma,
+    from_prime_factors,
+    is_nth_power,
+    smallest_div_by_first_n,
+)
 
 # --- from_prime_factors ---
 
@@ -71,3 +76,44 @@ def test_divisor_sigma_rejects_nonpositive():
         divisor_sigma(0, 1)
     with pytest.raises(ValueError):
         divisor_sigma(-5, 1)
+
+# --- is_nth_power ---
+
+def test_is_nth_power_true_cases():
+    assert is_nth_power(16, 4) is True
+    assert is_nth_power(9, 2) is True
+    assert is_nth_power(1, 100) is True
+
+def test_is_nth_power_false_cases():
+    assert is_nth_power(15, 4) is False
+    assert is_nth_power(10, 2) is False
+
+def test_is_nth_power_zero_is_true():
+    assert is_nth_power(0, 5) is True
+
+def test_is_nth_power_default_n_is_square():
+    assert is_nth_power(25) is True
+    assert is_nth_power(26) is False
+
+def test_is_nth_power_n_equals_one_always_true():
+    assert is_nth_power(7, 1) is True
+
+def test_is_nth_power_large_power():
+    assert is_nth_power(2**20, 20) is True
+    assert is_nth_power(2**20 - 1, 20) is False
+
+def test_is_nth_power_rejects_float():
+    with pytest.raises(TypeError):
+        is_nth_power(16.0, 4)
+    with pytest.raises(TypeError):
+        is_nth_power(16, 4.0)
+
+def test_is_nth_power_rejects_negative_b():
+    with pytest.raises(ValueError):
+        is_nth_power(-16, 4)
+
+def test_is_nth_power_rejects_nonpositive_n():
+    with pytest.raises(ValueError):
+        is_nth_power(16, 0)
+    with pytest.raises(ValueError):
+        is_nth_power(16, -2)
