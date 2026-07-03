@@ -1,22 +1,11 @@
-def get_decimal_expansion(p: int = 1, q: int = 1) -> int:
-    """Determines the decimal expansion of p/q.
+from core.number_theory import get_decimal_expansion
 
-    Can determine if the decimal expansion terminates or repeats.
+max_cycle = 0
+opt_d = 1
+for n in range(1, 1001):
+    exp = get_decimal_expansion(1, n)
+    if "(" in exp and (m := exp.index(")") - exp.index("(") - 1) > max_cycle:
+        max_cycle = m
+        opt_d = n
 
-    Args:
-        p: Positive integer numerator.
-        q: Positive integer denominator.
-
-    Returns:
-        A string representing the decimal expansion of p/q.
-        Parentheses around a sequence of digits indicate that
-        that sequence repeats infinitely.
-
-    Raises:
-        ...
-
-    Examples: ...
-    """
-    whole_number = str(p//q) + "."
-    fractional_part = ""
-    p = p % q
+print(opt_d)

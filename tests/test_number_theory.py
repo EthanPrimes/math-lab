@@ -5,6 +5,7 @@ import pytest
 from core.number_theory import (
     divisor_sigma,
     from_prime_factors,
+    get_decimal_expansion,
     is_nth_power,
     smallest_div_by_first_n,
 )
@@ -117,3 +118,37 @@ def test_is_nth_power_rejects_nonpositive_n():
         is_nth_power(16, 0)
     with pytest.raises(ValueError):
         is_nth_power(16, -2)
+
+# --- get_decimal_expansion ---
+
+def test_get_decimal_expansion_terminating():
+    assert get_decimal_expansion(1, 4) == "0.25"
+    assert get_decimal_expansion(1, 2) == "0.5"
+
+def test_get_decimal_expansion_repeating():
+    assert get_decimal_expansion(1, 3) == "0.(3)"
+    assert get_decimal_expansion(1, 11) == "0.(09)"
+
+def test_get_decimal_expansion_mixed_repeating():
+    assert get_decimal_expansion(1, 6) == "0.1(6)"
+
+def test_get_decimal_expansion_negative_numerator():
+    assert get_decimal_expansion(-5, 2) == "-2.5"
+
+def test_get_decimal_expansion_zero_numerator():
+    assert get_decimal_expansion(0, 7) == "0."
+
+def test_get_decimal_expansion_default_args():
+    assert get_decimal_expansion() == "1.0"
+
+def test_get_decimal_expansion_rejects_float():
+    with pytest.raises(TypeError):
+        get_decimal_expansion(1.0, 6)
+    with pytest.raises(TypeError):
+        get_decimal_expansion(1, 6.0)
+
+def test_get_decimal_expansion_rejects_nonpositive_q():
+    with pytest.raises(ValueError):
+        get_decimal_expansion(1, 0)
+    with pytest.raises(ValueError):
+        get_decimal_expansion(1, -6)

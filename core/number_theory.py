@@ -6,6 +6,7 @@ Includes:
 - Smallest multiple of the first n natural numbers
 - Divisor sigma function
 - Perfect nth power check
+- Decimal expansion of a rational number
 """
 
 from collections import defaultdict
@@ -138,3 +139,64 @@ def divisor_sigma(n: int, z: int) -> int:
         res *= sum(prime**(a * z) for a in range(power + 1))
 
     return res
+
+def get_decimal_expansion(p: int = 1, q: int = 1) -> str:
+    """Determines the decimal expansion of p/q.
+
+    Can determine if the decimal expansion terminates or repeats.
+
+    Args:
+        p: Integer numerator.
+        q: Positive integer denominator.
+
+    Returns:
+        A string representing the decimal expansion of p/q.
+        Parentheses around a sequence of digits indicates that
+        it repeats infinitely.
+
+    Raises:
+        TypeError: If p or q is not an integer.
+        ValueError: If q is not positive.
+
+    Examples:
+        >>> get_decimal_expansion(1, 4)
+        '0.25'
+        >>> get_decimal_expansion(1, 3)
+        '0.(3)'
+        >>> get_decimal_expansion(1, 11)
+        '0.(09)'
+        >>> get_decimal_expansion(-5, 2)
+        '-2.5'
+    """
+    if not isinstance(p, int):
+        raise TypeError(f"Expected int, got {type(p).__name__}")
+    if not isinstance(q, int):
+        raise TypeError(f"Expected int, got {type(q).__name__}")
+    if q < 1:
+        raise ValueError(f"Expected positive integer, got {q}")
+
+    neg = p < 0
+    p = abs(p)
+    whole_number = str(p//q) + "."
+    if neg:
+        whole_number = "-" + whole_number
+        p = abs(p)
+    elif p == 0:
+        return whole_number
+
+    fractional_part = ""
+    r = p % q
+    found_remainders = [0, p]
+    while True:
+        r *= 10
+        fractional_part += str(r//q)
+        r %= q
+        if r in found_remainders:
+            break
+        found_remainders.append(r)
+
+    if r:
+        i = found_remainders.index(r) - 1
+        fractional_part = f"{fractional_part[:i]}({fractional_part[i:]})"
+
+    return whole_number + fractional_part
