@@ -91,17 +91,32 @@ def sieve_of_eratosthenes(n: int) -> list[int]:
 
     return [i for i, flag in enumerate(is_prime_flags) if flag]
 
-def pollards_rho_algorithm(n: int, x0: int = 2, c: int = 1) -> int:
-    """Returns a nontrivial divisor of the input n.
+def pollards_rho_algorithm(
+        n: int,
+        x0: int = 2,
+        c: int = 1,
+        attempts: int = 10,
+        ) -> int:
+    """Return a nontrivial divisor of the input n.
 
     Uses Pollard's Rho Algorithm to determine a nontrivial divisor of n.
-    The input *must* be composite, or this function will run indefinitely.
+    The input *must* be composite for this function to work.
 
     Args:
-        n: Composite integer.
+        n: Composite integer greater than 1.
+        x0: Initial value of x.
+        c: Constant in the quadratic x^2 + c.
+        attempts: The number of times the algorithm will attempt to
+        find a factor.
 
     Returns:
         Nontrivial integer divisor of n.
+
+    Raises:
+        TypeError: If n, x0, c, or attempts is not an integer.
+        ValueError: If n is not greater than 1.
+        RuntimeError: If no factor is found within the given number of
+        attempts (e.g. because n is prime).
 
     Examples:
         >>> pollards_rho_algorithm(18)
@@ -109,6 +124,18 @@ def pollards_rho_algorithm(n: int, x0: int = 2, c: int = 1) -> int:
         >>> pollards_rho_algorithm(1331, 3, 2)
         121
     """
+    for name, value in (("n", n), ("x0", x0), ("c", c), ("attempts", attempts)):
+        if not isinstance(value, int):
+            raise TypeError(f"Expected int for {name}, got {type(value).__name__}")
+    if n <= 1:
+        raise ValueError(f"Expected n greater than 1, got {n}")
+
+    if attempts <= 0:
+        raise RuntimeError(
+            f"Failed to find a nontrivial divisor of {n} within the "
+            "given number of attempts"
+        )
+
     # Optimization for simple divisors
     if math.gcd(n, 30) > 1:
         return math.gcd(n, 30)
@@ -128,7 +155,8 @@ def pollards_rho_algorithm(n: int, x0: int = 2, c: int = 1) -> int:
         return pollards_rho_algorithm(
             n,
             random.randint(0, n - 1),
-            random.randint(1, n - 2)
+            random.randint(1, n - 2),
+            attempts=attempts-1
         )
 
     return d

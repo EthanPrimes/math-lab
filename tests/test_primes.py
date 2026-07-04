@@ -55,6 +55,28 @@ def test_pollards_rho_larger_composite():
     assert 1 < d < n
     assert n % d == 0
 
+def test_pollards_rho_raises_on_prime_input():
+    with pytest.raises(RuntimeError):
+        pollards_rho_algorithm(101, attempts=5)
+
+def test_pollards_rho_rejects_non_integer_args():
+    with pytest.raises(TypeError):
+        pollards_rho_algorithm(18.0)
+    with pytest.raises(TypeError):
+        pollards_rho_algorithm(18, x0=2.0)
+    with pytest.raises(TypeError):
+        pollards_rho_algorithm(18, c=1.0)
+    with pytest.raises(TypeError):
+        pollards_rho_algorithm(18, attempts=10.0)
+
+def test_pollards_rho_rejects_n_not_greater_than_one():
+    with pytest.raises(ValueError):
+        pollards_rho_algorithm(1)
+    with pytest.raises(ValueError):
+        pollards_rho_algorithm(0)
+    with pytest.raises(ValueError):
+        pollards_rho_algorithm(-6)
+
 # --- regex_is_prime ---
 
 def test_regex_is_prime_basic_primes():
