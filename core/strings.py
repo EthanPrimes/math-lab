@@ -19,8 +19,11 @@ def is_palindrome(n: object, ignore_whitespace: bool = False) -> bool:
 
     Example:
         >>> is_palindrome("121")
+        True
         >>> is_palindrome(121)
+        True
         >>> is_palindrome("a man a plan a canal panama", ignore_whitespace=True)
+        True
     """
     s = str(n)
     if ignore_whitespace:

@@ -7,6 +7,7 @@ Includes:
 - Regex-based primality checker
 - Prime factorization
 - Sieve of Eratosthenes
+- Prime counting function
 """
 
 from collections import defaultdict
@@ -90,6 +91,37 @@ def sieve_of_eratosthenes(n: int) -> list[int]:
         p += 1
 
     return [i for i, flag in enumerate(is_prime_flags) if flag]
+
+def pi(x: float) -> int:
+    """Computes pi(x), the prime counting function.
+
+    Essentially a wrapper for the sieve_of_eratosthenes.
+
+    Args:
+        x: Float (or int) upper bound.
+
+    Returns:
+        Integer representing the number of primes <= x.
+
+    Raises:
+        TypeError: If x is not an int or float.
+
+    Examples:
+        >>> pi(100)
+        25
+        >>> pi(-1.0)
+        0
+        >>> pi(17)
+        7
+    """
+    if not isinstance(x, (int, float)):
+        raise TypeError(f"Expected int or float, got {type(x).__name__}")
+
+    x = math.floor(x)
+    if x < 2:
+        return 0
+
+    return len(sieve_of_eratosthenes(x))
 
 def pollards_rho_algorithm(
         n: int,

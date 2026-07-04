@@ -4,6 +4,7 @@ import pytest
 
 from core.primes import (
     is_prime,
+    pi,
     pollards_rho_algorithm,
     regex_is_prime,
     sieve_of_eratosthenes,
@@ -76,6 +77,35 @@ def test_pollards_rho_rejects_n_not_greater_than_one():
         pollards_rho_algorithm(0)
     with pytest.raises(ValueError):
         pollards_rho_algorithm(-6)
+
+# --- pi ---
+
+def test_pi_basic_values():
+    assert pi(100) == 25
+    assert pi(17) == 7
+    assert pi(2) == 1
+    assert pi(1) == 0
+
+def test_pi_matches_sieve_count():
+    n = 500
+    assert pi(n) == len(sieve_of_eratosthenes(n))
+
+def test_pi_negative_and_below_two():
+    assert pi(-1.0) == 0
+    assert pi(0) == 0
+    assert pi(1.9) == 0
+
+def test_pi_floors_float_input():
+    assert pi(100.9) == pi(100)
+
+def test_pi_accepts_int_and_float():
+    assert pi(100) == pi(100.0)
+
+def test_pi_rejects_non_numeric():
+    with pytest.raises(TypeError):
+        pi("100")
+    with pytest.raises(TypeError):
+        pi(None)
 
 # --- regex_is_prime ---
 
