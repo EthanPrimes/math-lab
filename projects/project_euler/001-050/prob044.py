@@ -1,4 +1,4 @@
-N = 10**5
+N = 10**4
 pent_list = [n*(3*n - 1) // 2 for n in range(1, N + 1)]
 pent_set = set(pent_list)
 

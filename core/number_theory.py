@@ -6,6 +6,7 @@ Includes:
 - Smallest multiple of the first n natural numbers
 - Divisor sigma function
 - Perfect nth power check
+- Euler's totient function
 - Decimal expansion of a rational number
 """
 
@@ -137,6 +138,42 @@ def divisor_sigma(n: int, z: int) -> int:
     res = 1
     for prime, power in factors.items():
         res *= sum(prime**(a * z) for a in range(power + 1))
+
+    return res
+
+def euler_totient(n: int) -> int:
+    """Returns the count of integers in [1, n] that are coprime to n.
+
+    Uses the prime factorization of n: for each distinct prime factor p
+    of n, multiplies the running total by (p - 1) / p.
+
+    Args:
+        n: Positive integer.
+
+    Returns:
+        The number of integers in [1, n] coprime to n.
+
+    Raises:
+        TypeError: If n is not an integer.
+        ValueError: If n is not positive.
+
+    Examples:
+        >>> euler_totient(1)
+        1
+        >>> euler_totient(9)
+        6
+        >>> euler_totient(13)
+        12
+    """
+    if not isinstance(n, int):
+        raise TypeError(f"Expected int, got {type(n).__name__}")
+    if n < 1:
+        raise ValueError(f"Expected positive integer, got {n}")
+
+    primes = prime_factors(n).keys()
+    res = n
+    for p in primes:
+        res = res // p * (p - 1)
 
     return res
 

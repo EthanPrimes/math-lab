@@ -4,6 +4,7 @@ import pytest
 
 from core.number_theory import (
     divisor_sigma,
+    euler_totient,
     from_prime_factors,
     get_decimal_expansion,
     is_nth_power,
@@ -118,6 +119,40 @@ def test_is_nth_power_rejects_nonpositive_n():
         is_nth_power(16, 0)
     with pytest.raises(ValueError):
         is_nth_power(16, -2)
+
+# --- euler_totient ---
+
+def test_euler_totient_one_is_one():
+    assert euler_totient(1) == 1
+
+def test_euler_totient_prime():
+    assert euler_totient(13) == 12
+    assert euler_totient(2) == 1
+
+def test_euler_totient_prime_power():
+    assert euler_totient(9) == 6
+    assert euler_totient(8) == 4
+
+def test_euler_totient_composite():
+    assert euler_totient(6) == 2
+    assert euler_totient(36) == 12
+
+def test_euler_totient_matches_brute_force():
+    from math import gcd
+
+    for n in range(1, 100):
+        expected = sum(1 for k in range(1, n + 1) if gcd(n, k) == 1)
+        assert euler_totient(n) == expected
+
+def test_euler_totient_rejects_float():
+    with pytest.raises(TypeError):
+        euler_totient(10.0)
+
+def test_euler_totient_rejects_nonpositive():
+    with pytest.raises(ValueError):
+        euler_totient(0)
+    with pytest.raises(ValueError):
+        euler_totient(-5)
 
 # --- get_decimal_expansion ---
 
