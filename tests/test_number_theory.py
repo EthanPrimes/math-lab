@@ -8,6 +8,7 @@ from core.number_theory import (
     from_prime_factors,
     get_decimal_expansion,
     is_nth_power,
+    num_digits,
     smallest_div_by_first_n,
 )
 
@@ -187,3 +188,39 @@ def test_get_decimal_expansion_rejects_nonpositive_q():
         get_decimal_expansion(1, 0)
     with pytest.raises(ValueError):
         get_decimal_expansion(1, -6)
+
+# --- num_digits ---
+
+def test_num_digits_default_b():
+    assert num_digits(1000) == 4
+    assert num_digits(999) == 3
+    assert num_digits(1) == 1
+
+def test_num_digits_with_power():
+    assert num_digits(2, 10) == 4
+    assert num_digits(7, 100) == 85
+
+def test_num_digits_matches_len_str():
+    for a, b in [(2, 1000), (13, 47), (5, 100), (3, 250)]:
+        assert num_digits(a, b) == len(str(a**b))
+
+def test_num_digits_accepts_float_base():
+    assert num_digits(100.5) == 3
+
+def test_num_digits_rejects_bad_types():
+    with pytest.raises(TypeError):
+        num_digits("100")
+    with pytest.raises(TypeError):
+        num_digits(100, 2.0)
+
+def test_num_digits_rejects_nonpositive_a():
+    with pytest.raises(ValueError):
+        num_digits(0)
+    with pytest.raises(ValueError):
+        num_digits(-5)
+
+def test_num_digits_rejects_nonpositive_b():
+    with pytest.raises(ValueError):
+        num_digits(5, 0)
+    with pytest.raises(ValueError):
+        num_digits(5, -2)

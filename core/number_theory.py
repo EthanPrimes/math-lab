@@ -11,7 +11,7 @@ Includes:
 """
 
 from collections import defaultdict
-from math import prod
+from math import prod, log10
 
 from core.primes import prime_factors
 
@@ -237,3 +237,38 @@ def get_decimal_expansion(p: int = 1, q: int = 1) -> str:
         fractional_part = f"{fractional_part[:i]}({fractional_part[i:]})"
 
     return whole_number + fractional_part
+
+def num_digits(a: float, b: int=1) -> int:
+    """Computes the number of digits in a^b.
+
+    Uses the value of b * log(a) to determine the number of digits.
+
+    Args:
+        a: Positive real number representing the base of the number.
+        b: Positive int representing the power of the number.
+
+    Returns:
+        The number of digits in a^b.
+
+    Raises:
+        TypeError: If a is not an int or float, or b is not an int.
+        ValueError: If a or b is not positive.
+
+    Examples:
+        >>> num_digits(1000)
+        4
+        >>> num_digits(2, 10)
+        4
+        >>> num_digits(7, 100)
+        85
+    """
+    if not isinstance(a, (int, float)):
+        raise TypeError(f"Expected int or float, got {type(a).__name__}")
+    if not isinstance(b, int):
+        raise TypeError(f"Expected int, got {type(b).__name__}")
+    if a <= 0:
+        raise ValueError(f"Expected positive number, got {a}")
+    if b < 1:
+        raise ValueError(f"Expected positive integer, got {b}")
+
+    return int(1 + (b * log10(a)) // 1)
