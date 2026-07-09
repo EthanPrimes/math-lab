@@ -231,7 +231,7 @@ def prime_factors(n: int) -> dict[int, int]:
             factors[i] += 1
         i += 2
     if n != 1:
-        dict[n] = 1
+        factors[n] = 1
     return dict(factors)
 
 def regex_is_prime(n: int):
