@@ -6,6 +6,9 @@ Soon:
 * Make a # of digits function
 * Make a continued fraction function
     * Clean this up from prob066.py
+* Fix prime_factors.py - this is very slow when there are large primes. Keep track of n / all primes so far, and only go up to the square root of that point before terminating and knowing the final number is a prime
+    * Verify that I didn't break it; compare speed to original function
+    * Figure out why my implementation that gets the factors then combines them is so much slower
 
 Distant:
 * Implement the Miller-Rabin primality test

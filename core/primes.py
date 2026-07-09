@@ -225,11 +225,13 @@ def prime_factors(n: int) -> dict[int, int]:
         factors[2] += 1
 
     i = 3
-    while n > 1:
+    while i < pow(n, 1/2):
         while n % i == 0:
             n //= i
             factors[i] += 1
         i += 2
+    if n != 1:
+        dict[n] = 1
     return dict(factors)
 
 def regex_is_prime(n: int):
