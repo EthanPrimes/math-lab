@@ -6,6 +6,7 @@ Includes:
 - Smallest multiple of the first n natural numbers
 - Divisor sigma function
 - Perfect nth power check
+- Fibonacci number check
 - Euler's totient function
 - Decimal expansion of a rational number
 """
@@ -106,6 +107,38 @@ def is_nth_power(b: int, n: int = 2) -> bool:
 
     a = round(pow(b, 1/n))
     return a**n == b
+
+def is_fibonacci_number(n: float) -> bool:
+    """Determine if the input is a *nonnegative* Fibonacci number.
+
+    Uses the 5x^2 +/- 4 technique to determine if n is in the
+    Fibonacci sequence.
+
+    Args:
+        n: Nonnegative integer.
+
+    Returns:
+        bool describing if n is a Fibonacci number.
+
+    Raises:
+        TypeError: If n is not an integer.
+        ValueError: If n is not nonnegative.
+
+    Examples:
+        >>> is_fibonacci_number(21)
+        True
+        >>> is_fibonacci_number(22)
+        False
+        >>> is_fibonacci_number(0)
+        True
+    """
+    if not isinstance(n, (int, float)):
+        raise TypeError(f"Expected int or float, got {type(n).__name__}")
+    if n < 0:
+        raise ValueError(f"Expected nonnegative value, got {n}")
+    n = int(n)  # To avoid rounding errors in the return step
+
+    return is_nth_power(5*n**2 + 4) or is_nth_power(5*n**2 - 4)
 
 def divisor_sigma(n: int, z: int) -> int:
     """Returns the sum of the z-th powers of the positive divisors of n.

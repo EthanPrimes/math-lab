@@ -225,7 +225,7 @@ def prime_factors(n: int) -> dict[int, int]:
         factors[2] += 1
 
     i = 3
-    while i < pow(n, 1/2):
+    while i < pow(n, 1/2) + 1:
         while n % i == 0:
             n //= i
             factors[i] += 1

@@ -7,6 +7,7 @@ from core.number_theory import (
     euler_totient,
     from_prime_factors,
     get_decimal_expansion,
+    is_fibonacci_number,
     is_nth_power,
     num_digits,
     smallest_div_by_first_n,
@@ -120,6 +121,34 @@ def test_is_nth_power_rejects_nonpositive_n():
         is_nth_power(16, 0)
     with pytest.raises(ValueError):
         is_nth_power(16, -2)
+
+# --- is_fibonacci_number ---
+
+def test_is_fibonacci_number_true_cases():
+    fibs = {0, 1}
+    a, b = 0, 1
+    while b < 1000:
+        a, b = b, a + b
+        fibs.add(b)
+
+    for n in range(1000):
+        assert is_fibonacci_number(n) == (n in fibs)
+
+def test_is_fibonacci_number_false_cases():
+    for n in [4, 6, 7, 9, 10, 90, 100, 1000]:
+        assert is_fibonacci_number(n) is False
+
+def test_is_fibonacci_number_accepts_float():
+    assert is_fibonacci_number(21.0) is True
+    assert is_fibonacci_number(22.0) is False
+
+def test_is_fibonacci_number_rejects_bad_type():
+    with pytest.raises(TypeError):
+        is_fibonacci_number("21")
+
+def test_is_fibonacci_number_rejects_negative():
+    with pytest.raises(ValueError):
+        is_fibonacci_number(-1)
 
 # --- euler_totient ---
 
