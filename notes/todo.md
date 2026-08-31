@@ -1,5 +1,6 @@
 Soon:
 * Write a generator for primes that dynamically expands
+* Experiment with the diophantine equation that generates primes
 * Rewrite primality / other intensive tests in C++, use a Python wrapper to call them
     * Have a checker that determines if the input is of the appropriate size for C++; not larger than long long, but longer than the cutoff point where C++ + 2ms overhead is faster
 * Fix up the `partitions` function in `experiments.ipynb` to be iterative
