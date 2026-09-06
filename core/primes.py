@@ -8,6 +8,7 @@ Includes:
 - Prime factorization
 - Sieve of Eratosthenes
 - Prime counting function
+- Incremental prime generator
 """
 
 from collections import defaultdict
@@ -92,7 +93,7 @@ def sieve_of_eratosthenes(n: int) -> list[int]:
 
     return [i for i, flag in enumerate(is_prime_flags) if flag]
 
-def pi(x: float) -> int:
+def count_primes_up_to(x: float) -> int:
     """Computes pi(x), the prime counting function.
 
     Essentially a wrapper for the sieve_of_eratosthenes.
@@ -107,11 +108,11 @@ def pi(x: float) -> int:
         TypeError: If x is not an int or float.
 
     Examples:
-        >>> pi(100)
+        >>> count_primes_up_to(100)
         25
-        >>> pi(-1.0)
+        >>> count_primes_up_to(-1.0)
         0
-        >>> pi(17)
+        >>> count_primes_up_to(17)
         7
     """
     if not isinstance(x, (int, float)):
@@ -122,6 +123,72 @@ def pi(x: float) -> int:
         return 0
 
     return len(sieve_of_eratosthenes(x))
+
+def prime_generator_fast() -> "Iterator[int]":
+    """Yields the primes in increasing order, starting at 2.
+
+    Stores every prime found so far and tests each candidate for
+    divisibility only by those primes up to its square root. Faster
+    than repeated trial division at the cost of unbounded memory
+    growth as the run continues.
+
+    Yields:
+        The next prime.
+
+    Examples:
+        >>> gen = prime_generator_fast()
+        >>> [next(gen) for _ in range(6)]
+        [2, 3, 5, 7, 11, 13]
+    """
+    yield 2
+    primes = [2]
+    n = 3
+    while True:
+        is_candidate_prime = True
+        for p in primes:
+            if p * p > n:
+                break
+            if n % p == 0:
+                is_candidate_prime = False
+                break
+        if is_candidate_prime:
+            primes.append(n)
+            yield n
+        n += 2
+
+def prime_generator_efficient() -> "Iterator[int]":
+    """Yields the primes in increasing order, starting at 2.
+
+    Tests each odd candidate by trial division against the odd
+    numbers up to its square root. Uses only constant memory, at the
+    cost of running slower than prime_generator_fast, which reuses
+    the primes it has already found.
+
+    Yields:
+        The next prime.
+
+    Examples:
+        >>> gen = prime_generator_efficient()
+        >>> [next(gen) for _ in range(6)]
+        [2, 3, 5, 7, 11, 13]
+    """
+    yield 2
+
+    def trial_division_is_prime(n: int) -> bool:
+        if n < 4:
+            return n > 1
+        if n % 2 == 0:
+            return False
+        for i in range(3, math.isqrt(n) + 1, 2):
+            if n % i == 0:
+                return False
+        return True
+
+    n = 3
+    while True:
+        if trial_division_is_prime(n):
+            yield n
+        n += 2
 
 def pollards_rho_algorithm(
         n: int,
