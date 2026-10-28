@@ -1,4 +1,5 @@
 Soon:
+* Linear Sieve, Quadratic Sieve
 * Write a generator for primes that dynamically expands
 * Experiment with the diophantine equation that generates primes
 * Rewrite primality / other intensive tests in C++, use a Python wrapper to call them

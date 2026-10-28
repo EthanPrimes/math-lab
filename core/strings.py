@@ -5,6 +5,7 @@ Includes:
 - Palindrome detector
 """
 
+
 def is_palindrome(n: object, ignore_whitespace: bool = False) -> bool:
     """Determines if the input is a palindrome.
 

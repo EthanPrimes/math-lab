@@ -16,6 +16,7 @@ from math import prod, log10
 
 from core.primes import prime_factors
 
+
 def from_prime_factors(factors: dict[int, int]) -> int:
     """Returns the integer represented by a prime factorization.
 
@@ -35,6 +36,7 @@ def from_prime_factors(factors: dict[int, int]) -> int:
         1
     """
     return prod(prime**power for prime, power in factors.items())
+
 
 def smallest_div_by_first_n(n: int) -> int:
     """Returns the smallest integer divisible by each of 1, 2, ..., n.
@@ -69,6 +71,7 @@ def smallest_div_by_first_n(n: int) -> int:
             max_power[prime] = max(max_power[prime], power)
 
     return from_prime_factors(max_power)
+
 
 def is_nth_power(b: int, n: int = 2) -> bool:
     """Determine if b is a perfect nth power.
@@ -105,8 +108,9 @@ def is_nth_power(b: int, n: int = 2) -> bool:
     if n < 1:
         raise ValueError(f"Expected positive integer, got {n}")
 
-    a = round(pow(b, 1/n))
+    a = round(pow(b, 1 / n))
     return a**n == b
+
 
 def is_fibonacci_number(n: float) -> bool:
     """Determine if the input is a *nonnegative* Fibonacci number.
@@ -138,7 +142,8 @@ def is_fibonacci_number(n: float) -> bool:
         raise ValueError(f"Expected nonnegative value, got {n}")
     n = int(n)  # To avoid rounding errors in the return step
 
-    return is_nth_power(5*n**2 + 4) or is_nth_power(5*n**2 - 4)
+    return is_nth_power(5 * n**2 + 4) or is_nth_power(5 * n**2 - 4)
+
 
 def divisor_sigma(n: int, z: int) -> int:
     """Returns the sum of the z-th powers of the positive divisors of n.
@@ -170,9 +175,10 @@ def divisor_sigma(n: int, z: int) -> int:
     factors = prime_factors(n)
     res = 1
     for prime, power in factors.items():
-        res *= sum(prime**(a * z) for a in range(power + 1))
+        res *= sum(prime ** (a * z) for a in range(power + 1))
 
     return res
+
 
 def euler_totient(n: int) -> int:
     """Returns the count of integers in [1, n] that are coprime to n.
@@ -209,6 +215,7 @@ def euler_totient(n: int) -> int:
         res = res // p * (p - 1)
 
     return res
+
 
 def get_decimal_expansion(p: int = 1, q: int = 1) -> str:
     """Determines the decimal expansion of p/q.
@@ -247,7 +254,7 @@ def get_decimal_expansion(p: int = 1, q: int = 1) -> str:
 
     neg = p < 0
     p = abs(p)
-    whole_number = str(p//q) + "."
+    whole_number = str(p // q) + "."
     if neg:
         whole_number = "-" + whole_number
         p = abs(p)
@@ -259,7 +266,7 @@ def get_decimal_expansion(p: int = 1, q: int = 1) -> str:
     found_remainders = [0, p]
     while True:
         r *= 10
-        fractional_part += str(r//q)
+        fractional_part += str(r // q)
         r %= q
         if r in found_remainders:
             break
@@ -271,7 +278,8 @@ def get_decimal_expansion(p: int = 1, q: int = 1) -> str:
 
     return whole_number + fractional_part
 
-def num_digits(a: float, b: int=1) -> int:
+
+def num_digits(a: float, b: int = 1) -> int:
     """Computes the number of digits in a^b.
 
     Uses the value of b * log(a) to determine the number of digits.

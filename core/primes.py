@@ -17,6 +17,7 @@ import math
 import random
 from typing import Iterator  # pylint: disable=unused-import
 
+
 def is_prime(n: int) -> bool:
     """Returns a bool indicating primality of the input.
 
@@ -59,6 +60,7 @@ def is_prime(n: int) -> bool:
         jump = 6 - jump
     return True
 
+
 def sieve_of_eratosthenes(n: int) -> list[int]:
     """Uses the Sieve of Eratosthenes to compute a list of all primes up to n.
 
@@ -93,6 +95,7 @@ def sieve_of_eratosthenes(n: int) -> list[int]:
 
     return [i for i, flag in enumerate(is_prime_flags) if flag]
 
+
 def count_primes_up_to(x: float) -> int:
     """Computes pi(x), the prime counting function.
 
@@ -123,6 +126,7 @@ def count_primes_up_to(x: float) -> int:
         return 0
 
     return len(sieve_of_eratosthenes(x))
+
 
 def prime_generator_fast() -> "Iterator[int]":
     """Yields the primes in increasing order, starting at 2.
@@ -155,6 +159,7 @@ def prime_generator_fast() -> "Iterator[int]":
             primes.append(n)
             yield n
         n += 2
+
 
 def prime_generator_efficient() -> "Iterator[int]":
     """Yields the primes in increasing order, starting at 2.
@@ -190,12 +195,13 @@ def prime_generator_efficient() -> "Iterator[int]":
             yield n
         n += 2
 
+
 def pollards_rho_algorithm(
-        n: int,
-        x0: int = 2,
-        c: int = 1,
-        attempts: int = 10,
-        ) -> int:
+    n: int,
+    x0: int = 2,
+    c: int = 1,
+    attempts: int = 10,
+) -> int:
     """Return a nontrivial divisor of the input n.
 
     Uses Pollard's Rho Algorithm to determine a nontrivial divisor of n.
@@ -252,13 +258,11 @@ def pollards_rho_algorithm(
     if d == n:
         # Failed to find a factor; randomize inputs and try again
         return pollards_rho_algorithm(
-            n,
-            random.randint(0, n - 1),
-            random.randint(1, n - 2),
-            attempts=attempts-1
+            n, random.randint(0, n - 1), random.randint(1, n - 2), attempts=attempts - 1
         )
 
     return d
+
 
 def prime_factors(n: int) -> dict[int, int]:
     """Returns the prime factorization of the input.
@@ -292,7 +296,7 @@ def prime_factors(n: int) -> dict[int, int]:
         factors[2] += 1
 
     i = 3
-    while i < pow(n, 1/2) + 1:
+    while i < pow(n, 1 / 2) + 1:
         while n % i == 0:
             n //= i
             factors[i] += 1
@@ -300,6 +304,7 @@ def prime_factors(n: int) -> dict[int, int]:
     if n != 1:
         factors[n] = 1
     return dict(factors)
+
 
 def regex_is_prime(n: int):
     """Returns whether or not the input integer is prime.
